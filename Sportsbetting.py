@@ -737,8 +737,6 @@ plt.show()
 plt.bar(allteamnames, teamwinnings22, color = "green")
 plt.title("Wins per team in 2022")
 
-predictor(teams["ENTER HOME TEAM"], teams["ENTER AWAY TEAM"])
-
 
 plt.xlabel("Teams")
 plt.ylabel("Number of wins")
@@ -746,5 +744,6 @@ plt.xticks(rotation=90)
 plt.tight_layout()
 plt.show()
 
+predictor(teams["ENTER HOME TEAM"], teams["ENTER AWAY TEAM"])
 
 
