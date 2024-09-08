@@ -10,3 +10,11 @@ teams ={"Adelaide": 1, "Port Adelaide": 2, "Carlton": 3, "Essendon": 4, "Richmon
         "Fremantle": 7, "West Coast": 8, "Greater Western Sydney": 9, "Brisbane Lions": 10, "Sydney": 11,
         "St Kilda": 12, "Melbourne": 13, "Western Bulldogs": 14, "Geelong": 15, "Gold Coast": 16,
         "Hawthorn": 17, "North Melbourne": 18}
+
+VERSION 2.0 Update
+
+- Complete overhall
+- New model type RandomForestRegressor, predicts winning margin instead of just a win or loss
+- negative values mean the away team is predicted to win, positive values mean the home team is predicted to win
+- Now with a HTML interface to designed to be more user friendly
+- Is now able to be hosted by a server using the Python Flask backend
