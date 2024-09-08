@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFL Match Predictor V2.0</title>
+    <link rel="icon" type="image/x-icon" href="/static/afl.png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>AFL Match Predictor V2.1</h1>
+    <form id="predictForm">
+        <label for="team1">Home Team</label>
+        <select id="team1" name="team1">
+            <option value="Adelaide">Adelaide</option>
+            <option value="Port Adelaide">Port Adelaide</option>
+            <option value="Carlton">Carlton</option>
+            <option value="Essendon">Essendon</option>
+            <option value="Richmond">Richmond</option>
+            <option value="Collingwood">Collingwood</option>
+            <option value="Fremantle">Fremantle</option>
+            <option value="West Coast">West Coast</option>
+            <option value="Greater Western Sydney">Greater Western Sydney</option>
+            <option value="Brisbane">Brisbane</option>
+            <option value="Sydney">Sydney</option>
+            <option value="St Kilda">St Kilda</option>
+            <option value="Melbourne">Melbourne</option>
+            <option value="Western Bulldogs">Western Bulldogs</option>
+            <option value="Geelong">Geelong</option>
+            <option value="Gold Coast">Gold Coast</option>
+            <option value="Hawthorn">Hawthorn</option>
+            <option value="North Melbourne">North Melbourne</option>
+        </select>
+        <label for="team2">Away Team</label>
+        <select id="team2" name="team2">
+            <option value="Adelaide">Adelaide</option>
+            <option value="Port Adelaide">Port Adelaide</option>
+            <option value="Carlton">Carlton</option>
+            <option value="Essendon">Essendon</option>
+            <option value="Richmond">Richmond</option>
+            <option value="Collingwood">Collingwood</option>
+            <option value="Fremantle">Fremantle</option>
+            <option value="West Coast">West Coast</option>
+            <option value="Greater Western Sydney">Greater Western Sydney</option>
+            <option value="Brisbane">Brisbane</option>
+            <option value="Sydney">Sydney</option>
+            <option value="St Kilda">St Kilda</option>
+            <option value="Melbourne">Melbourne</option>
+            <option value="Western Bulldogs">Western Bulldogs</option>
+            <option value="Geelong">Geelong</option>
+            <option value="Gold Coast">Gold Coast</option>
+            <option value="Hawthorn">Hawthorn</option>
+            <option value="North Melbourne">North Melbourne</option>
+        </select>
+        <label for="crowdsize">Crowd Size</label>
+        <select id="crowdsize" name="crowdsize">
+            <option value="Small">Small (0 - 20,000)</option>
+            <option value="Medium">Medium (20,001 - 60,000)</option>
+            <option value="Large">Large (60,001 - 100,000)</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+    <div id="result"></div>
+    </div>
+    <button id="wallpaper">Change Wallpaper</button>
+
+
+<script>
+        let wallind = 0;
+        document.getElementById('wallpaper').addEventListener('click', function() {
+        const wallpapers = [
+            '/static/mdg.jpg',
+            '/static/playing-rules.jpg',
+            '/static/stadium.jpg',
+            '/static/brig.jpg'
+        ];
+
+        if (wallind === 3) {
+            wallind = 0;
+        } else {
+            wallind += 1;
+        }
+
+        document.body.style.backgroundImage = `url('${wallpapers[wallind]}')`;
+    });
+
+
+        document.getElementById('predictForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            console.log("Form submission intercepted");
+
+            const hometeam = document.getElementById('team1').value;
+            const awayteam = document.getElementById('team2').value;
+            const attendance = document.getElementById('crowdsize').value;
+
+            console.log(`Home Team: ${hometeam}, Away Team: ${awayteam}, Attendance: ${attendance}`);
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ hometeam: hometeam, awayteam: awayteam, attendance: attendance })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = `Predicted Winning Margin: ${data.prediction}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+        });
+    });
+</script>
+</body>
+</html>
